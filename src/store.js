@@ -4,6 +4,7 @@
 class Store {
   constructor(initState = {}) {
     this.state = initState;
+    this.nextKey = this.state?.list?.length + 1 ?? 1;
     this.listeners = []; // Слушатели изменений состояния
   }
 
@@ -16,8 +17,8 @@ class Store {
     this.listeners.push(listener);
     // Возвращается функция для удаления добавленного слушателя
     return () => {
-      this.listeners = this.listeners.filter(item => item !== listener);
-    }
+      this.listeners = this.listeners.filter((item) => item !== listener);
+    };
   }
 
   /**
@@ -44,9 +45,12 @@ class Store {
   addItem() {
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись'}]
-    })
-  };
+      list: [
+        ...this.state.list,
+        { code: this.nextKey++, title: 'Новая запись' },
+      ],
+    });
+  }
 
   /**
    * Удаление записи по коду
@@ -55,24 +59,38 @@ class Store {
   deleteItem(code) {
     this.setState({
       ...this.state,
-      list: this.state.list.filter(item => item.code !== code)
-    })
-  };
+      list: this.state.list.filter((item) => item.code !== code),
+    });
+  }
 
   /**
    * Выделение записи по коду
    * @param code
    */
   selectItem(code) {
+    const prevSelectedItem =
+      this.state.list.find((item) => item.selected) ?? null;
     this.setState({
       ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
+      list: this.state.list.map((item) => {
+        // клик на выделенном элементе
+        if (item.code === code && item.code === prevSelectedItem?.code) {
           item.selected = !item.selected;
+          return item;
         }
+        // клик на другом элементе
+        if (item.code === code && item.code !== prevSelectedItem?.code) {
+          item.selected = true;
+          item.selectedCount = item.selectedCount ? item.selectedCount + 1 : 1;
+        }
+        // клик на другом элементе - снять выделение с прошлого
+        if (item.code === prevSelectedItem?.code) {
+          item.selected = false;
+        }
+
         return item;
-      })
-    })
+      }),
+    });
   }
 }
 
