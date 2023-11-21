@@ -2,7 +2,7 @@
  * Хранилище состояния приложения
  */
 class Store {
-  constructor(initState = {}) {
+  constructor(initState = { list: [] }) {
     this.state = initState;
     this.nextKey = this.state?.list?.length + 1 ?? 1;
     this.listeners = []; // Слушатели изменений состояния

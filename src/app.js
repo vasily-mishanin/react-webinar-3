@@ -51,6 +51,7 @@ function App({ store }) {
 export default App;
 
 // helper
+
 function formatCount(n) {
   if (n >= 10 && n <= 20) {
     return 'раз';
