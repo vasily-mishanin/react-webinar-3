@@ -2,11 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import "./style.css";
-import Head from "../head";
-import List from "../list";
 
-function Modal({ onClose, cartItems, onRemoveItemFromCart }) {
-  console.log({ cartItems });
+function Modal({ children, onClose }) {
   return createPortal(
     <div className="Modal-background" onClick={onClose}>
       <div
@@ -15,20 +12,20 @@ function Modal({ onClose, cartItems, onRemoveItemFromCart }) {
           e.stopPropagation();
         }}
       >
-        <Head title="Корзина" withContol onClick={onClose} />
-        <List
-          list={cartItems.items}
-          isCartList
-          onAction={onRemoveItemFromCart}
-        />
-        <p className="Modal-total">
-          <span>Итого </span>
-          <span>{cartItems.totalPrice} ₽</span>
-        </p>
+        {children}
       </div>
     </div>,
     document.getElementById("portal")
   );
 }
+
+Modal.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
+
+Modal.defaultProps = {
+  children: null,
+};
 
 export default React.memo(Modal);

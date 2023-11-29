@@ -14,22 +14,9 @@
   margin: 2rem;
   flex-grow: 1;
   background-color: #fff;
-  padding-bottom: 4rem;
 
   border-radius: 0.5rem;
   overflow: hidden;
 
   display: flex;
-  flex-direction: column;
-}
-
-.Modal-total {
-  align-self: flex-end;
-  padding: 20px;
-  width: 240px;
-  font-weight: 700;
-  font-size: 18px;
-
-  display: flex;
-  gap: 3.5rem;
 }

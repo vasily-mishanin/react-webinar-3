@@ -4,6 +4,7 @@ import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
 import Modal from "./components/modal";
+import Cart from "./components/cart";
 
 /**
  * Приложение
@@ -14,24 +15,8 @@ function App({ store }) {
   const [isModalShown, setIsModalShown] = useState(false);
 
   const list = store.getState().list;
-  const cart = store.getState().cart;
 
   const callbacks = {
-    onAddItem: useCallback(
-      (code) => {
-        //store.deleteItem(code);
-        console.log("Go to Cart");
-      },
-      [store]
-    ),
-
-    onSelectItem: useCallback(
-      (code) => {
-        store.selectItem(code);
-      },
-      [store]
-    ),
-
     onAddToCart: useCallback(
       (code) => {
         store.addItemToCart(code);
@@ -39,9 +24,12 @@ function App({ store }) {
       [store]
     ),
 
-    onRemoveItemFromCart: useCallback((code) => {
-      store.removeItemFromCart(code);
-    }),
+    onRemoveItemFromCart: useCallback(
+      (code) => {
+        store.removeItemFromCart(code);
+      },
+      [store]
+    ),
   };
 
   return (
@@ -51,17 +39,15 @@ function App({ store }) {
         cartSummary={store.getCartSummary()}
         onOpenCart={() => setIsModalShown(true)}
       />
-      <List
-        list={list}
-        onAction={callbacks.onAddToCart}
-        onSelectItem={callbacks.onSelectItem}
-      />
+      <List list={list} onAction={callbacks.onAddToCart} />
       {isModalShown && (
-        <Modal
-          cartItems={store.getCartInfo()}
-          onClose={() => setIsModalShown(false)}
-          onRemoveItemFromCart={callbacks.onRemoveItemFromCart}
-        />
+        <Modal onClose={() => setIsModalShown(false)}>
+          <Cart
+            cartItems={store.getCartInfo()}
+            onClose={() => setIsModalShown(false)}
+            onRemoveItemFromCart={callbacks.onRemoveItemFromCart}
+          />
+        </Modal>
       )}
     </PageLayout>
   );

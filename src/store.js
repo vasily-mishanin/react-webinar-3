@@ -102,7 +102,8 @@ class Store {
   }
 
   /**
-   * Удалить продукт из корзины
+   * Удаление продукта из корзины
+   * @param productId {number}
    */
   removeItemFromCart(productId) {
     const newCart = new Map(this.state.cart);
