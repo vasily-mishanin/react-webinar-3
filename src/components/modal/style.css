@@ -1,0 +1,35 @@
+.Modal-background {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(83, 83, 83, 0.9);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Modal-content {
+  max-width: 960px;
+  margin: 2rem;
+  flex-grow: 1;
+  background-color: #fff;
+  padding-bottom: 4rem;
+
+  border-radius: 0.5rem;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.Modal-total {
+  align-self: flex-end;
+  padding: 20px;
+  width: 240px;
+  font-weight: 700;
+  font-size: 18px;
+
+  display: flex;
+  gap: 3.5rem;
+}
