@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Item from "../item";
 import "./style.css";
 
-function List({ list, isCartList, onAction }) {
+function List({ list, resourceName, ItemComponent, onAction }) {
   return (
     <ul className="List">
       {list.map((item) => (
         <li key={item.code} className="List-item">
-          <Item item={item} onAction={onAction} isCartItem={isCartList} />
+          <ItemComponent {...{ [resourceName]: item }} onAction={onAction} />
         </li>
       ))}
     </ul>
@@ -21,7 +20,8 @@ List.propTypes = {
       code: PropTypes.number,
     })
   ).isRequired,
-  isCartList: PropTypes.bool,
+  resourceName: PropTypes.string.isRequired,
+  ItemComponent: PropTypes.node.isRequired,
   onAction: PropTypes.func,
 };
 

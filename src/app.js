@@ -5,6 +5,7 @@ import Head from "./components/head";
 import PageLayout from "./components/page-layout";
 import Modal from "./components/modal";
 import Cart from "./components/cart";
+import Item from "./components/item";
 
 /**
  * Приложение
@@ -39,11 +40,16 @@ function App({ store }) {
         cartSummary={store.getCartSummary()}
         onOpenCart={() => setIsModalShown(true)}
       />
-      <List list={list} onAction={callbacks.onAddToCart} />
+      <List
+        list={list}
+        resourceName="item"
+        ItemComponent={Item}
+        onAction={callbacks.onAddToCart}
+      />
       {isModalShown && (
         <Modal onClose={() => setIsModalShown(false)}>
           <Cart
-            cartItems={store.getCartInfo()}
+            cartInfo={store.getCartInfo()}
             onClose={() => setIsModalShown(false)}
             onRemoveItemFromCart={callbacks.onRemoveItemFromCart}
           />

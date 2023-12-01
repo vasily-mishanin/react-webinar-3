@@ -3,15 +3,22 @@ import PropTypes from "prop-types";
 import "./style.css";
 import Head from "../head";
 import List from "../list";
+import { formatPrice } from "../../utils";
+import ItemCart from "../item-cart";
 
-function Cart({ onClose, cartItems, onRemoveItemFromCart }) {
+function Cart({ onClose, cartInfo, onRemoveItemFromCart }) {
   return (
     <div className="Cart">
       <Head title="Корзина" withContol onControlClick={onClose} />
-      <List list={cartItems.items} isCartList onAction={onRemoveItemFromCart} />
+      <List
+        list={cartInfo.items}
+        resourceName="item"
+        ItemComponent={ItemCart}
+        onAction={onRemoveItemFromCart}
+      />
       <p className="Cart-total">
         <span>Итого </span>
-        <span>{cartItems.totalPrice} ₽</span>
+        <span>{formatPrice(cartInfo.totalPrice, "ru-RU", "RUB")}</span>
       </p>
     </div>
   );
@@ -19,13 +26,24 @@ function Cart({ onClose, cartItems, onRemoveItemFromCart }) {
 
 Cart.propTypes = {
   onClose: PropTypes.func.isRequired,
-  cartItems: PropTypes.object,
+  cartInfo: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.number,
+        title: PropTypes.string,
+        count: PropTypes.number,
+        price: PropTypes.number,
+        amount: PropTypes.number,
+      })
+    ),
+    totalPrice: PropTypes.string,
+  }).isRequired,
   onRemoveItemFromCart: PropTypes.func,
 };
 
 Cart.defaultProps = {
   onClose: () => {},
-  cartItems: {},
+  cartInfo: {},
   onRemoveItemFromCart: () => {},
 };
 

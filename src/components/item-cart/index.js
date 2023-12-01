@@ -7,7 +7,7 @@ import "./style.css";
 
 const cn = bem("Item");
 
-function Item(props) {
+function ItemCart(props) {
   const callbacks = {
     onAction: (e) => {
       e.stopPropagation();
@@ -22,25 +22,26 @@ function Item(props) {
       <span className={cn("price")}>
         {formatPrice(props.item.price, "ru-RU", "RUB")}
       </span>
+      <span className={cn("amount")}>{props.item.amount} шт</span>
       <div className={cn("actions")}>
-        <button onClick={callbacks.onAction}>Добавить</button>
+        <button onClick={callbacks.onAction}>Удалить</button>
       </div>
     </div>
   );
 }
 
-Item.propTypes = {
+ItemCart.propTypes = {
   item: PropTypes.shape({
     code: PropTypes.number,
     title: PropTypes.string,
     price: PropTypes.number,
+    amount: PropTypes.number,
   }).isRequired,
   onAction: PropTypes.func,
 };
 
-Item.defaultProps = {
-  onDelete: () => {},
+ItemCart.defaultProps = {
   onAction: () => {},
 };
 
-export default React.memo(Item);
+export default React.memo(ItemCart);

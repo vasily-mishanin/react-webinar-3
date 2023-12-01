@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./style.css";
 import { plural } from "../../utils";
+import { formatPrice } from "../../utils";
 
 const pluralVariants = {
   one: "товар",
@@ -15,7 +16,7 @@ function Controls({ cartSummary, onOpenCart }) {
         cartSummary.amount,
         pluralVariants,
         "ru-RU"
-      )} / ${cartSummary.totalPrice} ₽
+      )} / ${formatPrice(cartSummary.totalPrice, "ru-RU", "RUB")}
   `
     : "пусто";
 
