@@ -36,7 +36,7 @@ Cart.propTypes = {
         amount: PropTypes.number,
       })
     ),
-    totalPrice: PropTypes.string,
+    totalPrice: PropTypes.number,
   }).isRequired,
   onRemoveItemFromCart: PropTypes.func,
 };

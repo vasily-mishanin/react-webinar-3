@@ -16,3 +16,7 @@
   align-items: center;
   padding: 2rem;
 }
+
+.Head-controls > button {
+  padding: 2px 12px;
+}

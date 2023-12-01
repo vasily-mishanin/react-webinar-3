@@ -6,6 +6,15 @@
   gap: 20px;
 }
 
+.Controls > button {
+  padding: 2px 16px;
+}
+
+.Controls-info {
+  font-size: 18px;
+  line-height: 20.7px;
+}
+
 .Controls-info span {
   font-weight: bold;
 }

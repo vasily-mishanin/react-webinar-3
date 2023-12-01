@@ -21,7 +21,7 @@ List.propTypes = {
     })
   ).isRequired,
   resourceName: PropTypes.string.isRequired,
-  ItemComponent: PropTypes.node.isRequired,
+  ItemComponent: PropTypes.elementType,
   onAction: PropTypes.func,
 };
 
