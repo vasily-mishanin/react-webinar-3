@@ -4,6 +4,7 @@ import { useOutletContext, useParams } from "react-router-dom";
 import { cn as bem } from "@bem-react/classname";
 import useStore from "../../store/use-store";
 import { numberFormat } from "../../utils";
+import useSelector from "../../store/use-selector";
 import "./style.css";
 
 const cn = bem("Product");
@@ -14,6 +15,10 @@ function ProductDetails() {
   const [notFound, setNotFound] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { productId } = useParams();
+  const { currentLanguage, dictionary } = useSelector(
+    (state) => state.translate
+  );
+  const d = dictionary[currentLanguage];
 
   const store = useStore();
 
@@ -76,7 +81,7 @@ function ProductDetails() {
       <p className={cn("price")}>
         Цена: <span>{price}</span>
       </p>
-      <button onClick={callbacks.addToBasket}>Добавить</button>
+      <button onClick={callbacks.addToBasket}>{d.add}</button>
     </article>
   );
 }

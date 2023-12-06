@@ -1,9 +1,16 @@
 .Head {
+  padding: 0 20px;
   height: 80px;
   background: #f5f5f5;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .Head h1 {
   margin: 0;
-  padding: 20px 20px 10px;
+  padding: 0;
+  font-size: 32px;
+  line-height: 36.8px;
 }

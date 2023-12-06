@@ -16,8 +16,6 @@ function Pagination(props) {
     currentPage,
   };
 
-  console.log({ options });
-
   const pages = getPagination(options);
 
   const callbacks = {

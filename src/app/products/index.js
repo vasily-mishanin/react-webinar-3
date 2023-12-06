@@ -8,14 +8,14 @@ import useSelector from "../../store/use-selector";
 function Products() {
   const store = useStore();
 
-  useEffect(() => {
-    store.actions.catalog.load("?fields=items(_id,%20title,%20price),count");
-  }, []);
-
   const select = useSelector((state) => ({
     list: state.catalog.list,
     totalCount: state.catalog.totalCount,
   }));
+
+  useEffect(() => {
+    store.actions.catalog.load("?fields=items(_id,%20title,%20price),count");
+  }, []);
 
   const callbacks = {
     // Добавление в корзину

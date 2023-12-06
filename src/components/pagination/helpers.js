@@ -6,7 +6,6 @@
 
 export function getPagination(options) {
   const { length, totalCount, currentPage } = options;
-  console.log(options);
 
   const numberOfpages = Math.ceil(totalCount / length);
 
@@ -40,8 +39,6 @@ export function getPagination(options) {
       numberOfpages,
     ];
   }
-
-  console.log({ currentPage });
 
   return [
     1,

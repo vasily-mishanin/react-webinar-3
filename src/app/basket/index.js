@@ -8,6 +8,10 @@ import useSelector from "../../store/use-selector";
 
 function Basket() {
   const store = useStore();
+  const { currentLanguage, dictionary } = useSelector(
+    (state) => state.translate
+  );
+  const d = dictionary[currentLanguage];
 
   const select = useSelector((state) => ({
     list: state.basket.list,
@@ -41,7 +45,7 @@ function Basket() {
   };
 
   return (
-    <ModalLayout title="Корзина" onClose={callbacks.closeModal}>
+    <ModalLayout title={d.basket} onClose={callbacks.closeModal}>
       <List list={select.list} renderItem={renders.itemBasket} />
       <BasketTotal sum={select.sum} />
     </ModalLayout>

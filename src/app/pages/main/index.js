@@ -13,6 +13,9 @@ import "./style.css";
 function Main() {
   const store = useStore();
   const activeModal = useSelector((state) => state.modals.name);
+  const { currentLanguage, dictionary } = useSelector(
+    (state) => state.translate
+  );
 
   const [title, setTitle] = useState(null);
   const { productId } = useParams();
@@ -39,7 +42,9 @@ function Main() {
   return (
     <>
       <PageLayout>
-        <Head title={productId && title ? title : "Магазин"} />
+        <Head
+          title={productId && title ? title : dictionary[currentLanguage].shop}
+        />
         <div className="Subhead">
           <Navigation />
           <BasketTool
