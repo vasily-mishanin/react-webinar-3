@@ -1,0 +1,30 @@
+.Pagination {
+  padding: 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Pagination ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+}
+
+.Pagination ul button {
+  height: 20px;
+  border: none;
+}
+
+.Pagination ul button:enabled:hover {
+  cursor: pointer;
+}
+
+.Pagination ul button:disabled {
+  background-color: transparent;
+  color: #cccccc;
+}
+
+.Pagination ul button.active {
+  background-color: #0087e9;
+  color: #ffffff;
+}
