@@ -1,0 +1,26 @@
+.Product {
+  padding: 20px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Product p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 20.7px;
+}
+
+.Product p > span {
+  font-weight: bold;
+}
+
+.Product p.Product-price {
+  font-size: 24px;
+  line-height: 27.6px;
+  font-weight: bold;
+}
+
+.Product button {
+  align-self: flex-start;
+}

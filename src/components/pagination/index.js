@@ -19,7 +19,6 @@ function Pagination(props) {
   console.log({ options });
 
   const pages = getPagination(options);
-  console.log({ pages });
 
   const callbacks = {
     handlePageClick: (page) => {
@@ -39,8 +38,8 @@ function Pagination(props) {
   return (
     <div className={cn()}>
       <ul>
-        {pages.map((page) => (
-          <li>
+        {pages.map((page, i) => (
+          <li key={`${page}_${i}`}>
             <button
               className={page === currentPage ? "active" : ""}
               disabled={page === "..."}
