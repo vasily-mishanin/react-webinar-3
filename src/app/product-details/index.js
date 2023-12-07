@@ -43,10 +43,9 @@ function ProductDetails() {
   }, [productId]);
 
   const callbacks = {
-    addToBasket: useCallback(
-      () => store.actions.basket.addToBasket(productId),
-      [store, productId]
-    ),
+    addToBasket: useCallback(() => {
+      store.actions.basket.addToBasket(productId);
+    }, [store, productId]),
   };
 
   if (isLoading) {
