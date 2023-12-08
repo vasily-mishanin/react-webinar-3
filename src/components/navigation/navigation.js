@@ -1,22 +1,20 @@
 import { Link } from "react-router-dom";
 import { memo } from "react";
-import useSelector from "../../store/use-selector";
+import PropTypes from "prop-types";
 
 import "./style.css";
 
-function Navigation() {
-  const { currentLanguage, dictionary } = useSelector(
-    (state) => state.translate
-  );
-
+function Navigation(props) {
   return (
     <nav className="Navigation">
-      <Link to="/">{dictionary[currentLanguage].main}</Link>
+      <Link to="/">{props.d.main}</Link>
     </nav>
   );
 }
 
-Navigation.propTypes = {};
+Navigation.propTypes = {
+  d: PropTypes.object,
+};
 
 Navigation.defaultProps = {};
 

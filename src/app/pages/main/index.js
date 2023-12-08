@@ -12,16 +12,16 @@ import Item from "../../../components/item";
 
 function Main() {
   const store = useStore();
-  const { currentLanguage, dictionary } = useSelector(
-    (state) => state.translate
-  );
 
   const select = useSelector((state) => ({
     list: state.catalog.list,
     totalCount: state.catalog.totalCount,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    translate: state.translate,
   }));
+  const { currentLanguage, dictionary } = select.translate;
+  const d = dictionary[currentLanguage];
 
   useEffect(() => {
     store.actions.catalog.load("?fields=items(_id,%20title,%20price),count");
@@ -48,21 +48,23 @@ function Main() {
             item={item}
             onAdd={callbacks.addToBasket}
             link={`/products/${item._id}`}
+            d={d}
           />
         );
       },
-      [callbacks.addToBasket]
+      [callbacks.addToBasket, d]
     ),
   };
 
   return (
     <>
       <PageLayout>
-        <Head title={dictionary[currentLanguage].shop} />
+        <Head title={d.shop} currentLanguage={currentLanguage} />
         <Subhead
           openModalBasket={callbacks.openModalBasket}
           amount={select.amount}
           sum={select.sum}
+          d={d}
         />
         <List list={select.list} renderItem={renders.item} />
         <Pagination count={select.totalCount} length={10} />

@@ -68,11 +68,12 @@ function ProductPage() {
   return (
     <>
       <PageLayout>
-        <Head title={product?.title || ""} />
+        <Head title={product?.title || ""} currentLanguage={currentLanguage} />
         <Subhead
           openModalBasket={callbacks.openModalBasket}
           amount={select.amount}
           sum={select.sum}
+          d={d}
         />
         {isLoading && <p className="ProductPage-message">⏳ ...</p>}
         {notFound && (

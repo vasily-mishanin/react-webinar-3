@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import useStore from "../../store/use-store";
 import "./style.css";
 
-function Head({ title }) {
+function Head({ title, currentLanguage }) {
   const store = useStore();
 
   const handleSelect = useCallback(
@@ -19,7 +19,7 @@ function Head({ title }) {
       <select
         name="language"
         id="language-select"
-        defaultValue="RU"
+        defaultValue={currentLanguage}
         onChange={handleSelect}
       >
         <option value="RU">RU</option>
@@ -31,6 +31,7 @@ function Head({ title }) {
 
 Head.propTypes = {
   title: PropTypes.node,
+  d: PropTypes.object,
 };
 
 export default memo(Head);

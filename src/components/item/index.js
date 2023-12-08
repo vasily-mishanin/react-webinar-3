@@ -3,15 +3,9 @@ import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import { numberFormat } from "../../utils";
 import { Link } from "react-router-dom";
-import useSelector from "../../store/use-selector";
 import "./style.css";
 
 function Item(props) {
-  const { currentLanguage, dictionary } = useSelector(
-    (state) => state.translate
-  );
-  const d = dictionary[currentLanguage];
-
   const cn = bem("Item");
 
   const callbacks = {
@@ -26,7 +20,7 @@ function Item(props) {
       </Link>
       <div className={cn("actions")}>
         <div className={cn("price")}>{numberFormat(props.item.price)} ₽</div>
-        <button onClick={callbacks.onAdd}>{d.add}</button>
+        <button onClick={callbacks.onAdd}>{props.d.add}</button>
       </div>
     </div>
   );
@@ -39,6 +33,7 @@ Item.propTypes = {
     price: PropTypes.number,
   }).isRequired,
   link: PropTypes.string,
+  d: PropTypes.object,
   onAdd: PropTypes.func,
 };
 

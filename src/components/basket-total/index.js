@@ -3,15 +3,9 @@ import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import { numberFormat } from "../../utils";
 import "./style.css";
-import useSelector from "../../store/use-selector";
 const cn = bem("BasketTotal");
 
-function BasketTotal({ sum }) {
-  const { currentLanguage, dictionary } = useSelector(
-    (state) => state.translate
-  );
-  const d = dictionary[currentLanguage];
-
+function BasketTotal({ sum, d }) {
   return (
     <div className={cn()}>
       <span className={cn("cell")}>{d.total}</span>
@@ -23,6 +17,7 @@ function BasketTotal({ sum }) {
 
 BasketTotal.propTypes = {
   sum: PropTypes.number,
+  d: PropTypes.object,
 };
 
 BasketTotal.defaultProps = {

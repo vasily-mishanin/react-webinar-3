@@ -2,16 +2,10 @@ import { memo } from "react";
 import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import { numberFormat, plural } from "../../utils";
-import useSelector from "../../store/use-selector";
 import "./style.css";
 
-function BasketTool({ sum, amount, onOpen }) {
+function BasketTool({ sum, amount, d, onOpen }) {
   const cn = bem("BasketTool");
-
-  const { currentLanguage, dictionary } = useSelector(
-    (state) => state.translate
-  );
-  const d = dictionary[currentLanguage];
 
   return (
     <div className={cn()}>
@@ -34,6 +28,7 @@ BasketTool.propTypes = {
   onOpen: PropTypes.func.isRequired,
   sum: PropTypes.number,
   amount: PropTypes.number,
+  d: PropTypes.object,
 };
 
 BasketTool.defaultProps = {

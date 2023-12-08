@@ -8,16 +8,15 @@ import useSelector from "../../store/use-selector";
 
 function Basket() {
   const store = useStore();
-  const { currentLanguage, dictionary } = useSelector(
-    (state) => state.translate
-  );
-  const d = dictionary[currentLanguage];
 
   const select = useSelector((state) => ({
     list: state.basket.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    translate: state.translate,
   }));
+  const { currentLanguage, dictionary } = select.translate;
+  const d = dictionary[currentLanguage];
 
   const callbacks = {
     // Удаление из корзины
@@ -38,17 +37,18 @@ function Basket() {
             onRemove={callbacks.removeFromBasket}
             onTitleClick={callbacks.closeModal}
             link={`/products/${item._id}`}
+            d={d}
           />
         );
       },
-      [callbacks.removeFromBasket]
+      [callbacks.removeFromBasket, callbacks.closeModal, d]
     ),
   };
 
   return (
-    <ModalLayout title={d.basket} onClose={callbacks.closeModal}>
+    <ModalLayout title={d.basket} d={d} onClose={callbacks.closeModal}>
       <List list={select.list} renderItem={renders.itemBasket} />
-      <BasketTotal sum={select.sum} />
+      <BasketTotal sum={select.sum} d={d} />
     </ModalLayout>
   );
 }

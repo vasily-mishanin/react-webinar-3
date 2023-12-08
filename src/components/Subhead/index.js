@@ -9,11 +9,12 @@ import "./style.css";
 function Subhead(props) {
   return (
     <div className="Subhead">
-      <Navigation />
+      <Navigation d={props.d} />
       <BasketTool
         onOpen={props.openModalBasket}
         amount={props.amount}
         sum={props.sum}
+        d={props.d}
       />
     </div>
   );
@@ -23,6 +24,7 @@ Subhead.propTypes = {
   onOpen: PropTypes.func.isRequired,
   sum: PropTypes.number,
   amount: PropTypes.number,
+  d: PropTypes.object,
 };
 
 Subhead.defaultProps = {
