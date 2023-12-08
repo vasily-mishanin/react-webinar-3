@@ -1,37 +1,38 @@
-import { memo, useCallback, useState, useEffect } from "react";
-import PageLayout from "../../../components/page-layout";
-import Head from "../../../components/head";
-import BasketTool from "../../../components/basket-tool";
-import Basket from "../../basket";
+import { memo, useCallback, useEffect } from "react";
+
 import useStore from "../../../store/use-store";
 import useSelector from "../../../store/use-selector";
-import { Outlet, useParams } from "react-router-dom";
-import Navigation from "../../../components/navigation/navigation";
 
-import "./style.css";
+import PageLayout from "../../../components/page-layout";
+import Head from "../../../components/head";
+import Subhead from "../../../components/Subhead";
+import List from "../../../components/list";
+import Pagination from "../../../components/pagination";
+import Item from "../../../components/item";
 
 function Main() {
   const store = useStore();
-  const activeModal = useSelector((state) => state.modals.name);
   const { currentLanguage, dictionary } = useSelector(
     (state) => state.translate
   );
 
-  const [title, setTitle] = useState(null);
-  const { productId } = useParams();
-
-  useEffect(() => {
-    if (!productId) {
-      setTitle(null);
-    }
-  }, [productId]);
-
   const select = useSelector((state) => ({
+    list: state.catalog.list,
+    totalCount: state.catalog.totalCount,
     amount: state.basket.amount,
     sum: state.basket.sum,
   }));
 
+  useEffect(() => {
+    store.actions.catalog.load("?fields=items(_id,%20title,%20price),count");
+  }, []);
+
   const callbacks = {
+    // Добавление в корзину
+    addToBasket: useCallback(
+      (_id) => store.actions.basket.addToBasket(_id),
+      [store]
+    ),
     // Открытие модалки корзины
     openModalBasket: useCallback(
       () => store.actions.modals.open("basket"),
@@ -39,23 +40,27 @@ function Main() {
     ),
   };
 
+  const renders = {
+    item: useCallback(
+      (item) => {
+        return <Item item={item} onAdd={callbacks.addToBasket} />;
+      },
+      [callbacks.addToBasket]
+    ),
+  };
+
   return (
     <>
       <PageLayout>
-        <Head
-          title={productId && title ? title : dictionary[currentLanguage].shop}
+        <Head title={dictionary[currentLanguage].shop} />
+        <Subhead
+          onOpen={callbacks.openModalBasket}
+          amount={select.amount}
+          sum={select.sum}
         />
-        <div className="Subhead">
-          <Navigation />
-          <BasketTool
-            onOpen={callbacks.openModalBasket}
-            amount={select.amount}
-            sum={select.sum}
-          />
-        </div>
-        <Outlet context={[title, setTitle]} />
+        <List list={select.list} renderItem={renders.item} />
+        <Pagination count={select.totalCount} length={10} />
       </PageLayout>
-      {activeModal === "basket" && <Basket />}
     </>
   );
 }

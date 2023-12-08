@@ -1,28 +1,23 @@
+import Root from "./root";
 import Main from "./pages/main";
-import Products from "./products";
+import ProductPage from "./pages/product";
 import NotFoundPage from "./not-found";
-import ProductDetails from "./product-details";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main />,
+    element: <Root />,
     errorElement: <NotFoundPage />,
     children: [
       {
         path: "/",
-        element: <Products />,
+        element: <Main />,
       },
       {
         path: "products/:productId",
-        element: <ProductDetails />,
+        element: <ProductPage />,
       },
     ],
   },
