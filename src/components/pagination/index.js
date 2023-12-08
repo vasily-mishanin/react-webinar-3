@@ -1,9 +1,9 @@
 import { memo, useState } from "react";
-import PropTypes, { string } from "prop-types";
-import { cn as bem } from "@bem-react/classname";
-import "./style.css";
-import { getPagination } from "./helpers";
+import PropTypes from "prop-types";
 import useStore from "../../store/use-store";
+import { cn as bem } from "@bem-react/classname";
+import { getPagination } from "./helpers";
+import "./style.css";
 
 function Pagination(props) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,11 +55,6 @@ function Pagination(props) {
 Pagination.propTypes = {
   count: PropTypes.number,
   length: PropTypes.number,
-  onAdd: PropTypes.func,
-};
-
-Pagination.defaultProps = {
-  onAdd: () => {},
 };
 
 export default memo(Pagination);

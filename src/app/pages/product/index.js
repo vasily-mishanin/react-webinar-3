@@ -33,25 +33,36 @@ function ProductPage() {
       const url = `/api/v1/articles/${productId}/?fields=*,madeIn(title,code),category(title)`;
       setIsLoading(true);
       setNotFound(false);
-      const response = await fetch(url, {
-        headers: { "Accept-Language": "ru" },
-      });
+      try {
+        const response = await fetch(url, {
+          headers: { "Accept-Language": "ru" },
+        });
 
-      if (response.status === 404) {
-        setNotFound(true);
+        if (response.status === 404) {
+          setIsLoading(false);
+          setNotFound(true);
+        }
+
+        const data = await response.json();
+        setIsLoading(false);
+        setProduct(data.result);
+      } catch (error) {
+        console.error(error);
       }
-
-      const data = await response.json();
-      setIsLoading(false);
-      setProduct(data.result);
-      setTitle(data.result.title);
     })();
   }, [productId]);
 
   const callbacks = {
+    // Добавление в корзину
     addToBasket: useCallback(() => {
       store.actions.basket.addToBasket(productId);
     }, [store, productId]),
+
+    // Открытие модалки корзины
+    openModalBasket: useCallback(
+      () => store.actions.modals.open("basket"),
+      [store]
+    ),
   };
 
   return (
@@ -59,14 +70,14 @@ function ProductPage() {
       <PageLayout>
         <Head title={product?.title || ""} />
         <Subhead
-          onOpen={callbacks.openModalBasket}
+          openModalBasket={callbacks.openModalBasket}
           amount={select.amount}
           sum={select.sum}
         />
         {isLoading && <p className="ProductPage-message">⏳ ...</p>}
         {notFound && (
           <p className="ProductPage-message">
-            💁‍♂️ Такой продукт не найден, проверьте id продукта
+            💁‍♂️ Такой продукт не найден, проверьте адрес запрашиваемого ресурса
           </p>
         )}
         {product ? (

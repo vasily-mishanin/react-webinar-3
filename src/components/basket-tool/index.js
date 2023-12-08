@@ -7,10 +7,10 @@ import "./style.css";
 
 function BasketTool({ sum, amount, onOpen }) {
   const cn = bem("BasketTool");
+
   const { currentLanguage, dictionary } = useSelector(
     (state) => state.translate
   );
-
   const d = dictionary[currentLanguage];
 
   return (

@@ -43,7 +43,13 @@ function Main() {
   const renders = {
     item: useCallback(
       (item) => {
-        return <Item item={item} onAdd={callbacks.addToBasket} />;
+        return (
+          <Item
+            item={item}
+            onAdd={callbacks.addToBasket}
+            link={`/products/${item._id}`}
+          />
+        );
       },
       [callbacks.addToBasket]
     ),
@@ -54,7 +60,7 @@ function Main() {
       <PageLayout>
         <Head title={dictionary[currentLanguage].shop} />
         <Subhead
-          onOpen={callbacks.openModalBasket}
+          openModalBasket={callbacks.openModalBasket}
           amount={select.amount}
           sum={select.sum}
         />

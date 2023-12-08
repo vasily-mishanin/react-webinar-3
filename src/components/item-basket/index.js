@@ -23,7 +23,7 @@ function ItemBasket(props) {
     <div className={cn()}>
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
       <Link
-        to={`/products/${props.item._id}`}
+        to={props.link}
         className={cn("title")}
         onClick={props.onTitleClick}
       >
@@ -49,6 +49,7 @@ ItemBasket.propTypes = {
     price: PropTypes.number,
     amount: PropTypes.number,
   }).isRequired,
+  link: PropTypes.string,
   onRemove: propTypes.func,
 };
 

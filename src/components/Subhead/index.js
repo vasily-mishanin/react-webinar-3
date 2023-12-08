@@ -1,4 +1,6 @@
 import { memo } from "react";
+import PropTypes from "prop-types";
+
 import Navigation from "../navigation/navigation";
 import BasketTool from "../basket-tool";
 
@@ -16,4 +18,17 @@ function Subhead(props) {
     </div>
   );
 }
+
+Subhead.propTypes = {
+  onOpen: PropTypes.func.isRequired,
+  sum: PropTypes.number,
+  amount: PropTypes.number,
+};
+
+Subhead.defaultProps = {
+  onOpen: () => {},
+  sum: 0,
+  amount: 0,
+};
+
 export default memo(Subhead);

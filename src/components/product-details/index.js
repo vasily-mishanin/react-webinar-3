@@ -1,4 +1,6 @@
 import { memo } from "react";
+import PropTypes from "prop-types";
+
 import { cn as bem } from "@bem-react/classname";
 import { numberFormat } from "../../utils";
 
@@ -33,4 +35,15 @@ function ProductDetails(props) {
     </article>
   );
 }
+
+ProductDetails.propTypes = {
+  addToBasket: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired,
+};
+
+ProductDetails.defaultProps = {
+  addToBasket: () => {},
+  product: null,
+};
+
 export default memo(ProductDetails);
