@@ -1,0 +1,41 @@
+.FormLogin {
+  padding: 20px;
+  padding-top: 38px;
+}
+
+.FormLogin-title {
+  margin: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.FormLogin-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.FormLogin-item {
+  width: 203px;
+  display: flex;
+  flex-direction: column;
+}
+
+.FormLogin-item label,
+.FormLogin-item input {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.FormLogin-error-msg p {
+  margin: 0;
+  color: #f00;
+  font-size: 16px;
+}
