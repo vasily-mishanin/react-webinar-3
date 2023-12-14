@@ -6,6 +6,7 @@ import Article from "./article";
 import Login from "./login";
 import Profile from "./profile";
 import ProtectedRoute from "../components/protected-route";
+import SkipRoute from "../components/skip-route";
 import useAuth from "../hooks/use-auth";
 
 /**
@@ -21,7 +22,14 @@ function App() {
       <Routes>
         <Route path={""} element={<Main />} />
         <Route path={"/articles/:id"} element={<Article />} />
-        <Route path={"/login"} element={<Login />} />
+        <Route
+          path={"/login"}
+          element={
+            <SkipRoute redirectPath="/profile">
+              <Login />
+            </SkipRoute>
+          }
+        />
         <Route
           path={"/profile"}
           element={

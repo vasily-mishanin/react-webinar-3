@@ -61,11 +61,26 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const logOut = () => {
+  const logOut = async () => {
+    const token = storage.getItem("token");
     setError(null);
     setUser(null);
-    // TODO - send DELETE?
     storage.removeItem("token");
+
+    try {
+      setWaiting(true);
+      await fetch("/api/v1/users/sign", {
+        method: "DELETE",
+        headers: {
+          "X-Token": token,
+          "Content-Type": "application/json",
+          "Accept-Language": "ru-RU",
+        },
+      });
+      setWaiting(false);
+    } catch (err) {
+      console.error("While user delete", err);
+    }
   };
 
   async function getMe(token) {
@@ -88,7 +103,7 @@ export function AuthProvider({ children }) {
         setError(data.error);
       } else if (data.result.profile) {
         const { name, phone } = data.result.profile;
-        setUser({ name, phone, email: data.result, token: data.result.token });
+        setUser({ name, phone, email: data.result.email, token });
         setError(null);
       }
     } catch (err) {
@@ -96,7 +111,7 @@ export function AuthProvider({ children }) {
     }
   }
 
-  const auth = useMemo(
+  const authValue = useMemo(
     () => ({
       // состояние авторизации
       user,
@@ -109,5 +124,7 @@ export function AuthProvider({ children }) {
     [user, error, waiting]
   );
 
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
+  );
 }

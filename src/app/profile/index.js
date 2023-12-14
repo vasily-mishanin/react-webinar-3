@@ -7,18 +7,17 @@ import LocaleSelect from "../../containers/locale-select";
 import AuthHeader from "../../components/auth-header";
 import useAuth from "../../hooks/use-auth";
 import UserCard from "../../components/user-card";
-import { useNavigate } from "react-router-dom";
 
 /**
  * Главная страница - первичная загрузка каталога
  */
+
 function Profile() {
   const { user } = useAuth();
   const { t } = useTranslate();
-  const navigate = useNavigate();
 
   if (!user) {
-    navigate("/login", { replace: true });
+    return null;
   }
 
   return (

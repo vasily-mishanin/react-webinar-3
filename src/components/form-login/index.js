@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, memo } from "react";
 import useAuth from "../../hooks/use-auth";
 import "./style.css";
 
 function FormLogin() {
-  const [formData, setFormData] = useState({});
-  const { error, user, getUser } = useAuth();
+  const [formData, setFormData] = useState({ login: "", password: "" });
+  const auth = useAuth();
 
   const callbacks = {
     onChange: useCallback((e) =>
@@ -12,7 +12,7 @@ function FormLogin() {
     ),
     onSubmit: useCallback((e) => {
       e.preventDefault();
-      getUser(formData);
+      auth.getUser(formData);
     }),
   };
 
@@ -26,6 +26,7 @@ function FormLogin() {
             type="text"
             name="login"
             id="login"
+            value={formData.login}
             onChange={callbacks.onChange}
           />
         </div>
@@ -35,15 +36,16 @@ function FormLogin() {
             type="password"
             name="password"
             id="password"
+            value={formData.password}
             onChange={callbacks.onChange}
           />
         </div>
         <div className="FormLogin-error-msg">
-          <p>{error ? error?.data?.issues[0]?.message : ""}</p>
+          <p>{auth.error ? auth.error?.data?.issues[0]?.message : ""}</p>
         </div>
         <button>Войти</button>
       </form>
     </div>
   );
 }
-export default FormLogin;
+export default memo(FormLogin);
