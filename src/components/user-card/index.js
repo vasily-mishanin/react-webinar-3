@@ -3,19 +3,19 @@ import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import "./style.css";
 
-function UserCard({ user, t }) {
+function UserCard({ user, labels }) {
   const cn = bem("UserCard");
   return (
     <article className={cn()}>
-      <h2 className={cn("title")}>Профиль</h2>
+      <h2 className={cn("title")}>{labels.profile}</h2>
       <div className={cn("prop")}>
         <p className={cn("label")}>
-          Имя:<span className={cn("value")}>{user.name}</span>
+          {labels.name}:<span className={cn("value")}>{user.name}</span>
         </p>
       </div>
       <div className={cn("prop")}>
         <p className={cn("label")}>
-          Телефон:<span className={cn("value")}>{user.phone}</span>
+          {labels.phone}:<span className={cn("value")}>{user.phone}</span>
         </p>
       </div>
       <div className={cn("prop")}>

@@ -15,7 +15,6 @@ import useAuth from "../hooks/use-auth";
  */
 function App() {
   const activeModal = useSelector((state) => state.modals.name);
-  const { user } = useAuth();
 
   return (
     <>

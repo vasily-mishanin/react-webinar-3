@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import useAuth from "../../hooks/use-auth";
 import useTranslate from "../../hooks/use-translate";
 import Navigation from "../../containers/navigation";
@@ -16,6 +16,16 @@ function Login() {
   const { waiting } = useAuth();
   const { t } = useTranslate();
 
+  const labels = useMemo(
+    () => ({
+      enter: t("auth.enter"),
+      username: t("auth.username"),
+      login: t("auth.login"),
+      password: t("auth.password"),
+    }),
+    [t]
+  );
+
   return (
     <PageLayout head={<AuthHeader />}>
       <Head title={t("title")}>
@@ -23,7 +33,7 @@ function Login() {
       </Head>
       <Navigation />
       <Spinner active={waiting}>
-        <FormLogin />
+        <FormLogin labels={labels} />
       </Spinner>
     </PageLayout>
   );

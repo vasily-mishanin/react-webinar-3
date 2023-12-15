@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState, memo } from "react";
+import { useCallback, useState, memo } from "react";
 import useAuth from "../../hooks/use-auth";
 import "./style.css";
 
-function FormLogin() {
+function FormLogin(props) {
   const [formData, setFormData] = useState({ login: "", password: "" });
   const auth = useAuth();
+  const { labels } = props;
 
   const callbacks = {
     onChange: useCallback((e) =>
@@ -18,10 +19,10 @@ function FormLogin() {
 
   return (
     <div className="FormLogin">
-      <h1 className="FormLogin-title">Вход</h1>
+      <h1 className="FormLogin-title">{labels.enter}</h1>
       <form className="FormLogin-form" onSubmit={callbacks.onSubmit}>
         <div className="FormLogin-item">
-          <label htmlFor="login">Логин</label>
+          <label htmlFor="login">{labels.username}</label>
           <input
             type="text"
             name="login"
@@ -31,7 +32,7 @@ function FormLogin() {
           />
         </div>
         <div className="FormLogin-item">
-          <label htmlFor="password">Пароль</label>
+          <label htmlFor="password">{labels.password}</label>
           <input
             type="password"
             name="password"
@@ -43,7 +44,7 @@ function FormLogin() {
         <div className="FormLogin-error-msg">
           <p>{auth.error ? auth.error?.data?.issues[0]?.message : ""}</p>
         </div>
-        <button>Войти</button>
+        <button>{labels.login}</button>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useMemo } from "react";
 import useTranslate from "../../hooks/use-translate";
 import Navigation from "../../containers/navigation";
 import PageLayout from "../../components/page-layout";
@@ -15,6 +15,14 @@ import UserCard from "../../components/user-card";
 function Profile() {
   const { user } = useAuth();
   const { t } = useTranslate();
+  const labels = useMemo(
+    () => ({
+      profile: t("auth.profile"),
+      name: t("auth.name"),
+      phone: t("auth.phone"),
+    }),
+    [t]
+  );
 
   if (!user) {
     return null;
@@ -26,7 +34,7 @@ function Profile() {
         <LocaleSelect />
       </Head>
       <Navigation />
-      <UserCard user={user} />
+      <UserCard user={user} labels={labels} />
     </PageLayout>
   );
 }
