@@ -1,36 +1,46 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
+import { useCallback } from "react";
+import PropTypes from "prop-types";
 import "./style.css";
-import useAuth from "../../hooks/use-auth";
-import { useNavigate } from "react-router-dom";
-import useTranslate from "../../hooks/use-translate";
 
-export default function AuthHeader() {
-  const { user, logOut } = useAuth();
-  const navigate = useNavigate();
-  const { t } = useTranslate();
-
-  const handleLogOut = () => {
-    logOut();
-    navigate("/login");
+function AuthHeader(props) {
+  const callbacks = {
+    logOut: useCallback(() => {
+      props.logOut();
+    }, []),
   };
 
   return (
     <div className="AuthHeader">
-      {user && (
+      {props.user.token && (
         <>
           <Link className="AuthHeader-link" to="/profile">
-            {user.name}
+            {props.user.name}
           </Link>
-          <button className="AuthHeader-button" onClick={handleLogOut}>
-            {t("auth.logout")}
+          <button className="AuthHeader-button" onClick={callbacks.logOut}>
+            {props.t("auth.logout")}
           </button>
         </>
       )}
-      {!user && (
+      {!props.user.token && (
         <Link className="AuthHeader-button" to="/login">
-          {t("auth.enter")}
+          {props.t("auth.enter")}
         </Link>
       )}
     </div>
   );
 }
+
+export default memo(AuthHeader);
+
+AuthHeader.propTypes = {
+  user: PropTypes.object,
+  logOut: PropTypes.func.isRequired,
+  t: PropTypes.func,
+};
+
+AuthHeader.defaultProps = {
+  user: null,
+  t: (text) => text,
+};

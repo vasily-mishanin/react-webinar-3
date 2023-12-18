@@ -119,6 +119,7 @@ export function AuthProvider({ children }) {
       getUser,
       getMe,
       logOut,
+      setError,
       waiting,
     }),
     [user, error, waiting]

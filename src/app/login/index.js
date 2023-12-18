@@ -1,5 +1,4 @@
-import { memo, useMemo } from "react";
-import useAuth from "../../hooks/use-auth";
+import { memo, useMemo, useEffect, useCallback } from "react";
 import useTranslate from "../../hooks/use-translate";
 import Navigation from "../../containers/navigation";
 import PageLayout from "../../components/page-layout";
@@ -8,13 +7,26 @@ import LocaleSelect from "../../containers/locale-select";
 import AuthHeader from "../../components/auth-header";
 import FormLogin from "../../components/form-login";
 import Spinner from "../../components/spinner";
+import useSelector from "../../hooks/use-selector";
+import useStore from "../../hooks/use-store";
+import { useNavigate } from "react-router-dom";
 
 /**
- * Главная страница - первичная загрузка каталога
+ * Cтраница - логин
  */
 function Login() {
-  const { waiting } = useAuth();
   const { t } = useTranslate();
+  const store = useStore();
+
+  const auth = useSelector((state) => state.auth);
+  const user = { name: auth.username, token: auth.token };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      store.actions.auth.resetError();
+    };
+  }, []);
 
   const labels = useMemo(
     () => ({
@@ -26,14 +38,36 @@ function Login() {
     [t]
   );
 
+  const callbacks = {
+    // Вход
+    getUser: useCallback(
+      (formData) => {
+        store.actions.auth.logIn(formData);
+      },
+      [store]
+    ),
+
+    // Выход
+    logOut: useCallback(async () => {
+      await store.actions.auth.logOut();
+      // navigate ?
+    }, [store]),
+  };
+
   return (
-    <PageLayout head={<AuthHeader />}>
+    <PageLayout
+      head={<AuthHeader t={t} user={user} logOut={callbacks.logOut} />}
+    >
       <Head title={t("title")}>
         <LocaleSelect />
       </Head>
       <Navigation />
-      <Spinner active={waiting}>
-        <FormLogin labels={labels} />
+      <Spinner active={auth.waiting}>
+        <FormLogin
+          labels={labels}
+          error={auth.error?.data?.issues[0]?.message}
+          getUser={callbacks.getUser}
+        />
       </Spinner>
     </PageLayout>
   );

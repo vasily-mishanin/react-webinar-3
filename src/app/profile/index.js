@@ -1,20 +1,46 @@
-import { memo, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import useTranslate from "../../hooks/use-translate";
 import Navigation from "../../containers/navigation";
 import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
 import LocaleSelect from "../../containers/locale-select";
 import AuthHeader from "../../components/auth-header";
-import useAuth from "../../hooks/use-auth";
-import UserCard from "../../components/user-card";
+import ProfileCard from "../../components/profile-card";
+import useSelector from "../../hooks/use-selector";
+import useStore from "../../hooks/use-store";
+import useInit from "../../hooks/use-init";
+import Spinner from "../../components/spinner";
 
 /**
- * Главная страница - первичная загрузка каталога
+ *
+ * Cтраница - профиль
+ *
  */
 
 function Profile() {
-  const { user } = useAuth();
+  const auth = useSelector((state) => state.auth);
+  const store = useStore();
+  const navigate = useNavigate();
   const { t } = useTranslate();
+
+  useInit(() => {
+    console.log(auth.token);
+    store.actions.profile.load(auth.token);
+  }, []);
+
+  const select = useSelector((state) => ({
+    profile: state.profile,
+  }));
+
+  const callbacks = {
+    // Выход
+    logOut: useCallback(() => {
+      store.actions.auth.logOut();
+      navigate("/login");
+    }, [store]),
+  };
+
   const labels = useMemo(
     () => ({
       profile: t("auth.profile"),
@@ -24,17 +50,23 @@ function Profile() {
     [t]
   );
 
-  if (!user) {
+  if (!auth.token) {
     return null;
   }
 
+  const user_header = { name: auth.username, token: auth.token };
   return (
-    <PageLayout head={<AuthHeader />}>
+    <PageLayout
+      head={<AuthHeader t={t} user={user_header} logOut={callbacks.logOut} />}
+    >
       <Head title={t("title")}>
         <LocaleSelect />
       </Head>
       <Navigation />
-      <UserCard user={user} labels={labels} />
+
+      <Spinner active={select.profile.waiting}>
+        <ProfileCard user={select.profile.data} labels={labels} />
+      </Spinner>
     </PageLayout>
   );
 }

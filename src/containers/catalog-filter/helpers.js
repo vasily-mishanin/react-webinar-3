@@ -1,4 +1,3 @@
-
 /**
  * Получает массив объектов категорий и возвращает массив древовидных структур
  * @param {Array} categories
@@ -31,12 +30,12 @@ export function convertToTree(categories) {
  */
 
 export function getOptions(categoriesTreesArray) {
-  const getNested = (tree, options = [], nesting = '') => {
+  const getNested = (tree, options = [], nesting = "") => {
     const category = { title: nesting + tree.title, id: tree._id };
 
     if (tree.children.length > 0) {
       for (const child of tree.children) {
-        options.push(getNested(child, [], '-' + nesting));
+        options.push(getNested(child, [], "- " + nesting));
       }
       return [category, ...options];
     } else {

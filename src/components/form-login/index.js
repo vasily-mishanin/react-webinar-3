@@ -1,11 +1,9 @@
 import { useCallback, useState, memo } from "react";
-import useAuth from "../../hooks/use-auth";
+import PropTypes from "prop-types";
 import "./style.css";
 
 function FormLogin(props) {
   const [formData, setFormData] = useState({ login: "", password: "" });
-  const auth = useAuth();
-  const { labels } = props;
 
   const callbacks = {
     onChange: useCallback((e) =>
@@ -13,16 +11,16 @@ function FormLogin(props) {
     ),
     onSubmit: useCallback((e) => {
       e.preventDefault();
-      auth.getUser(formData);
+      props.getUser(formData);
     }),
   };
 
   return (
     <div className="FormLogin">
-      <h1 className="FormLogin-title">{labels.enter}</h1>
+      <h1 className="FormLogin-title">{props.labels.enter}</h1>
       <form className="FormLogin-form" onSubmit={callbacks.onSubmit}>
         <div className="FormLogin-item">
-          <label htmlFor="login">{labels.username}</label>
+          <label htmlFor="login">{props.labels.username}</label>
           <input
             type="text"
             name="login"
@@ -32,7 +30,7 @@ function FormLogin(props) {
           />
         </div>
         <div className="FormLogin-item">
-          <label htmlFor="password">{labels.password}</label>
+          <label htmlFor="password">{props.labels.password}</label>
           <input
             type="password"
             name="password"
@@ -42,11 +40,22 @@ function FormLogin(props) {
           />
         </div>
         <div className="FormLogin-error-msg">
-          <p>{auth.error ? auth.error?.data?.issues[0]?.message : ""}</p>
+          <p>{props.error ? props.error : ""}</p>
         </div>
-        <button>{labels.login}</button>
+        <button>{props.labels.login}</button>
       </form>
     </div>
   );
 }
+
+FormLogin.propTypes = {
+  error: PropTypes.string,
+  labels: PropTypes.object.isRequired,
+  getUser: PropTypes.func.isRequired,
+};
+
+FormLogin.defaultProps = {
+  error: "",
+};
+
 export default memo(FormLogin);

@@ -1,11 +1,15 @@
-import React from "react";
 import { Navigate } from "react-router-dom";
-import useAuth from "../../hooks/use-auth";
+import { useNavigate } from "react-router-dom";
+import useLocalStorage from "../../hooks/use-localstorage";
+import useSelector from "../../hooks/use-selector";
 
 const SkipRoute = ({ children, redirectPath }) => {
-  const { user } = useAuth();
+  const auth = useSelector((state) => state.auth);
+  const storage = useLocalStorage();
+  console.log("SkipRoute", auth);
 
-  if (user) {
+  const storage_token = storage.getItem("auth_token");
+  if (storage_token || auth.token) {
     return <Navigate to={redirectPath} replace />;
   }
 

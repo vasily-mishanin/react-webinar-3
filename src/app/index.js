@@ -7,14 +7,24 @@ import Login from "./login";
 import Profile from "./profile";
 import ProtectedRoute from "../components/protected-route";
 import SkipRoute from "../components/skip-route";
-import useAuth from "../hooks/use-auth";
+import useInit from "../hooks/use-init";
+import useStore from "../hooks/use-store";
 
 /**
  * Приложение
  * Маршрутизация по страницам и модалкам
  */
 function App() {
+  const store = useStore();
   const activeModal = useSelector((state) => state.modals.name);
+
+  const storage_token = localStorage.getItem("auth_token");
+
+  if (storage_token) {
+    useInit(async () => {
+      await store.actions.auth.getMe(storage_token);
+    }, []);
+  }
 
   return (
     <>

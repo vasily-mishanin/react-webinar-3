@@ -3,31 +3,38 @@ import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import "./style.css";
 
-function UserCard({ user, labels }) {
+function ProfileCard({ user, labels }) {
   const cn = bem("UserCard");
   return (
     <article className={cn()}>
       <h2 className={cn("title")}>{labels.profile}</h2>
       <div className={cn("prop")}>
         <p className={cn("label")}>
-          {labels.name}:<span className={cn("value")}>{user.name}</span>
+          {labels.name}:
+          <span className={cn("value")}>
+            {user.profile?.name ? user.profile.name : ""}
+          </span>
         </p>
       </div>
       <div className={cn("prop")}>
         <p className={cn("label")}>
-          {labels.phone}:<span className={cn("value")}>{user.phone}</span>
+          {labels.phone}:
+          <span className={cn("value")}>
+            {user.profile?.phone ? user.profile.phone : ""}
+          </span>
         </p>
       </div>
       <div className={cn("prop")}>
         <p className={cn("label")}>
-          email:<span className={cn("value")}>{user.email}</span>
+          email:
+          <span className={cn("value")}>{user?.email ? user.email : ""}</span>
         </p>
       </div>
     </article>
   );
 }
 
-UserCard.propTypes = {
+ProfileCard.propTypes = {
   user: PropTypes.shape({
     name: PropTypes.string,
     phone: PropTypes.string,
@@ -36,9 +43,9 @@ UserCard.propTypes = {
   t: PropTypes.func,
 };
 
-UserCard.defaultProps = {
+ProfileCard.defaultProps = {
   user: {},
   t: (text) => text,
 };
 
-export default memo(UserCard);
+export default memo(ProfileCard);

@@ -1,13 +1,23 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import useAuth from "../../hooks/use-auth";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useLocalStorage from "../../hooks/use-localstorage";
+import useSelector from "../../hooks/use-selector";
 
 const ProtectedRoute = ({ children, redirectPath }) => {
-  const { user } = useAuth();
+  const auth = useSelector((state) => state.auth);
+  const storage = useLocalStorage();
+  const navigate = useNavigate();
+  console.log("ProtectedRoute", auth);
 
-  if (!user) {
-    return <Navigate to={redirectPath} replace />;
-  }
+  useEffect(() => {
+    const storage_token = storage.getItem("auth_token");
+
+    console.log("ProtectedRoute", storage_token, auth.token);
+
+    if (!auth.token || !storage_token) {
+      navigate(redirectPath, { replace: true });
+    }
+  }, []);
 
   return children;
 };
