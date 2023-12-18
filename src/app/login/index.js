@@ -9,7 +9,6 @@ import FormLogin from "../../components/form-login";
 import Spinner from "../../components/spinner";
 import useSelector from "../../hooks/use-selector";
 import useStore from "../../hooks/use-store";
-import { useNavigate } from "react-router-dom";
 
 /**
  * Cтраница - логин
@@ -20,7 +19,6 @@ function Login() {
 
   const auth = useSelector((state) => state.auth);
   const user = { name: auth.username, token: auth.token };
-  const navigate = useNavigate();
 
   useEffect(() => {
     return () => {
@@ -50,7 +48,6 @@ function Login() {
     // Выход
     logOut: useCallback(async () => {
       await store.actions.auth.logOut();
-      // navigate ?
     }, [store]),
   };
 

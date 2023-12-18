@@ -23,10 +23,10 @@ function Profile() {
   const store = useStore();
   const navigate = useNavigate();
   const { t } = useTranslate();
+  const storage_token = localStorage.getItem("auth_token");
 
   useInit(() => {
-    console.log(auth.token);
-    store.actions.profile.load(auth.token);
+    store.actions.profile.load(auth.token || storage_token);
   }, []);
 
   const select = useSelector((state) => ({
