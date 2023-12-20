@@ -25,13 +25,14 @@ class ArticleState extends StoreModule {
     });
 
     try {
-      const res = await this.services.api.request({
+      const res_article = await this.services.api.request({
         url: `/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)`
       });
 
+
       // Товар загружен успешно
       this.setState({
-        data: res.data.result,
+        data: res_article.data.result,
         waiting: false
       }, 'Загружен товар из АПИ');
 

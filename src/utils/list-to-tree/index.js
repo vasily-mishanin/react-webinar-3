@@ -4,11 +4,10 @@
  * @param [key] {String} Свойство с первичным ключом
  * @returns {Array} Корневые узлы
  */
-export default function listToTree(list, key = '_id') {
+export default function listToTree(list, key = "_id") {
   let trees = {};
   let roots = {};
   for (const item of list) {
-
     // Добавление элемента в индекс узлов и создание свойства children
     if (!trees[item[key]]) {
       trees[item[key]] = item;
@@ -22,7 +21,7 @@ export default function listToTree(list, key = '_id') {
     // Если элемент имеет родителя, то добавляем его в подчиненные родителя
     if (item.parent?._id) {
       // Если родителя ещё нет в индексе, то индекс создаётся, ведь _id родителя известен
-      if (!trees[item.parent._id]) trees[item.parent[key]] = {children: []};
+      if (!trees[item.parent._id]) trees[item.parent[key]] = { children: [] };
       // Добавления в подчиненные родителя
       trees[item.parent[key]].children.push(trees[item[key]]);
       // Так как элемент добавлен к родителю, то он уже не является корневым
@@ -30,4 +29,34 @@ export default function listToTree(list, key = '_id') {
     }
   }
   return Object.values(roots);
+}
+
+/**
+ * Получает массив объектов комментариев и идентификатор товара
+ * Возвращает массив корневых комментов в виде деревьев
+ * @param comments {Array} Список комментов с отношением на родителя
+ * @param [articleId] {String} Свойство с первичным ключом корневого коммента
+ * @returns {Array} Корневые узлы с деревом потомков
+ */
+export function commentsToTreesArray(comments, articleId) {
+  const commentsMap = new Map();
+  comments.forEach((comment) => {
+    commentsMap.set(comment._id, { ...comment, children: [] });
+  });
+
+  // объекты в этом массиве ссылаются на объекты в мапе commentsMap
+  const commentsTreesArray = [];
+
+  commentsMap.forEach((comment) => {
+    if (
+      comment.parent._id === articleId ||
+      comment.parent._type === "article"
+    ) {
+      commentsTreesArray.push(comment);
+    } else {
+      commentsMap.get(comment.parent._id).children.push(comment);
+    }
+  });
+
+  return commentsTreesArray;
 }

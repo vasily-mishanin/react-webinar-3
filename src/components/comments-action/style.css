@@ -1,0 +1,48 @@
+.CommentsAction {
+  margin: 20px 30px;
+  padding-bottom: 40px;
+}
+.CommentsAction-btn-cancel {
+  margin-left: 8px;
+  color: #666;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration-line: underline;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* ///*/
+
+.CommentForm {
+}
+
+.CommentForm-input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.CommentForm-input > label {
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.CommentForm-input > textarea {
+  resize: none;
+  padding: 4px;
+}
+
+.CommentForm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.CommentForm-btn-send {
+}
+
+.CommentForm-btn-cancel {
+}
