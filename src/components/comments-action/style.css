@@ -1,7 +1,7 @@
 .CommentsAction {
-  margin: 20px 30px;
-  padding-bottom: 40px;
+  margin-bottom: 30px;
 }
+
 .CommentsAction-btn-cancel {
   margin-left: 8px;
   color: #666;
@@ -16,6 +16,7 @@
 /* ///*/
 
 .CommentForm {
+  /* padding-right: 40px; */
 }
 
 .CommentForm-input {
@@ -42,7 +43,9 @@
 }
 
 .CommentForm-btn-send {
+  font-size: 13px;
 }
 
 .CommentForm-btn-cancel {
+  font-size: 13px;
 }

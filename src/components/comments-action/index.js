@@ -4,7 +4,7 @@ import "./style.css";
 import { Link } from "react-router-dom";
 import { cn as bem } from "@bem-react/classname";
 
-function CommentsAction({ onComment, onClose, isNewComment, session }) {
+function CommentsAction({ onComment, onActionClose, isRoot, session }) {
   const textRef = useRef(null);
   const cn = bem("CommentForm");
 
@@ -12,7 +12,12 @@ function CommentsAction({ onComment, onClose, isNewComment, session }) {
     onSubmit: useCallback((e) => {
       e.preventDefault();
       onComment(textRef.current.value);
-      onClose();
+      console.log(onActionClose);
+      onActionClose();
+    }, []),
+
+    onClose: useCallback((e) => {
+      onActionClose();
     }, []),
   };
 
@@ -23,10 +28,13 @@ function CommentsAction({ onComment, onClose, isNewComment, session }) {
           <Link to="/login">Войдите</Link>
           <span>
             , чтобы иметь возможность
-            {isNewComment ? " комментировать." : " ответить."}
+            {isRoot ? " комментировать." : " ответить."}
           </span>
-          {!isNewComment && (
-            <button className="CommentsAction-btn-cancel" onClick={onClose}>
+          {!isRoot && (
+            <button
+              className="CommentsAction-btn-cancel"
+              onClick={callbacks.onClose}
+            >
               Отмена
             </button>
           )}
@@ -35,18 +43,20 @@ function CommentsAction({ onComment, onClose, isNewComment, session }) {
       {session.exists && (
         <form className={cn()} onSubmit={callbacks.onSubmit}>
           <div className={cn("input")}>
-            <label htmlFor="commentText">Новый комментарий</label>
+            <label htmlFor="commentText">
+              Новый {isRoot ? "комментарий" : "ответ"}
+            </label>
             <textarea ref={textRef} id="commentText" rows="5"></textarea>
           </div>
           <div className={cn("actions")}>
             <button className={cn("btn-send")} type="submit">
               Отправить
             </button>
-            {!isNewComment && (
+            {!isRoot && (
               <button
                 className={cn("btn-cancel")}
                 type="button"
-                onClick={onClose}
+                onClick={onActionClose}
               >
                 Отмена
               </button>
@@ -60,8 +70,13 @@ function CommentsAction({ onComment, onClose, isNewComment, session }) {
 
 CommentsAction.propTypes = {
   onComment: PropTypes.func.isRequired,
-  isNewComment: PropTypes.bool.isRequired,
+  isRoot: PropTypes.bool.isRequired,
   session: PropTypes.object.isRequired,
+  onClose: PropTypes.func,
+};
+
+CommentsAction.defaultProps = {
+  onClose: () => {},
 };
 
 export default memo(CommentsAction);

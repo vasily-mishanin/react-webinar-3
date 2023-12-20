@@ -6,22 +6,46 @@ const cn = bem("Comment");
 import { dateToReadableString } from "../../utils/date-to-readable-string";
 import CommentsAction from "../comments-action";
 
-function CommentTree({ comment, childComments, session, onComment }) {
-  const [active, setActive] = useState(false);
-
+function CommentTree({
+  comment,
+  childComments,
+  session,
+  isRoot,
+  onComment,
+  onActionActive,
+  innerActionId,
+}) {
   const callbacks = {
     onAnswer: useCallback(() => {
-      setActive(true);
+      console.log(comment._id);
+      onActionActive(comment._id);
+    }, [comment]),
+
+    onActionClose: useCallback(() => {
+      onActionActive("ROOT");
     }, []),
-    onClose: useCallback(() => {
-      setActive(false);
+
+    onComment: useCallback((text) => {
+      const newComment = {
+        text,
+        parent: {
+          _id: comment._id,
+          _type: "comment",
+        },
+        author: {
+          profile: {
+            name: session.user.profile.name,
+          },
+          _id: session.user._id,
+        },
+      };
+
+      onComment(newComment);
     }, []),
   };
 
-  console.log("Session", session);
-
   return (
-    <div className="CommentTree">
+    <div className={isRoot ? "CommentTree-root" : "CommentTree"}>
       <article className={cn()}>
         <div className={cn("header")}>
           <span className={cn("username")}>{comment.author.profile.name}</span>
@@ -35,24 +59,27 @@ function CommentTree({ comment, childComments, session, onComment }) {
         </button>
       </article>
 
-      {active && (
+      {innerActionId === comment._id && (
         <CommentsAction
-          onComment={onComment}
-          onClose={callbacks.onClose}
-          isNewComment={false}
+          onComment={callbacks.onComment}
+          onActionClose={callbacks.onActionClose}
+          isRoot={false}
           session={session}
         />
       )}
 
-      {childComments.map((item) => {
-        const { children, ...comment } = item;
+      {childComments.map((childComment) => {
+        const { children, ...comment } = childComment;
         return (
           <CommentTree
             key={comment._id}
             comment={comment}
             childComments={children}
             session={session}
+            isRoot={false}
             onComment={onComment}
+            onActionActive={onActionActive}
+            innerActionId={innerActionId}
           />
         );
       })}
@@ -61,9 +88,12 @@ function CommentTree({ comment, childComments, session, onComment }) {
 }
 
 CommentTree.propTypes = {
-  label: PropTypes.node,
-  error: PropTypes.node,
-  children: PropTypes.node,
+  // comment,
+  // childComments,
+  // session,
+  // isRoot,
+  // onComment,
+  // onActionActive,
 };
 
 CommentTree.defaultProps = {};
