@@ -35,6 +35,9 @@
 .CommentForm-input > textarea {
   resize: none;
   padding: 4px;
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .CommentForm-actions {

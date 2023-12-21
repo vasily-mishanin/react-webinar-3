@@ -1,20 +1,24 @@
-import { memo, useCallback, useRef } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import "./style.css";
 import { Link } from "react-router-dom";
 import { cn as bem } from "@bem-react/classname";
 
 function CommentsAction({ onComment, onActionClose, isRoot, session }) {
-  const textRef = useRef(null);
+  const [commentText, setCommentText] = useState("");
+
+  // const textRef = useRef(null);
   const cn = bem("CommentForm");
 
   const callbacks = {
-    onSubmit: useCallback((e) => {
-      e.preventDefault();
-      onComment(textRef.current.value);
-      console.log(onActionClose);
-      onActionClose();
-    }, []),
+    onSubmit: useCallback(
+      (e) => {
+        e.preventDefault();
+        onComment(commentText);
+        onActionClose();
+      },
+      [commentText]
+    ),
 
     onClose: useCallback((e) => {
       onActionClose();
@@ -46,10 +50,19 @@ function CommentsAction({ onComment, onActionClose, isRoot, session }) {
             <label htmlFor="commentText">
               Новый {isRoot ? "комментарий" : "ответ"}
             </label>
-            <textarea ref={textRef} id="commentText" rows="5"></textarea>
+            <textarea
+              /*ref={textRef}*/ value={commentText}
+              id="commentText"
+              rows="5"
+              onChange={(e) => setCommentText(e.target.value)}
+            ></textarea>
           </div>
           <div className={cn("actions")}>
-            <button className={cn("btn-send")} type="submit">
+            <button
+              className={cn("btn-send")}
+              type="submit"
+              disabled={!commentText}
+            >
               Отправить
             </button>
             {!isRoot && (

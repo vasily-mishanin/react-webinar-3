@@ -1,5 +1,6 @@
 import { memo, useCallback, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import articleActions from "../../store-redux/article/actions";
 import useSelectorCustom from "../../hooks/use-selector";
 import Spinner from "../../components/spinner";
 import CommentsAction from "../../components/comments-action";
@@ -11,6 +12,7 @@ import Heading2 from "../../components/heading-2";
 
 function Comments() {
   const [innerActionId, setInnerActionId] = useState("ROOT");
+  const dispatch = useDispatch();
 
   const params = useParams();
   const select = useSelector((state) => ({
@@ -24,12 +26,12 @@ function Comments() {
   const callbacks = {
     onComment: useCallback((answerComment) => {
       console.log({ answerComment });
-      //TODO - send POST request
+      dispatch(articleActions.createComment(answerComment));
       setInnerActionId("ROOT");
     }, []),
 
     onRootComment: useCallback((text) => {
-      const newComment = {
+      const newRootComment = {
         text,
         parent: {
           _id: select.article._id,
@@ -42,9 +44,7 @@ function Comments() {
           _id: session.user._id,
         },
       };
-      console.log(select.article);
-      console.log(newComment);
-      //TODO - send POST request
+      dispatch(articleActions.createComment(newRootComment));
     }, []),
 
     onActionActive: useCallback((actionId) => {

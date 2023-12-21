@@ -17,7 +17,6 @@ function CommentTree({
 }) {
   const callbacks = {
     onAnswer: useCallback(() => {
-      console.log(comment._id);
       onActionActive(comment._id);
     }, [comment]),
 
@@ -26,7 +25,7 @@ function CommentTree({
     }, []),
 
     onComment: useCallback((text) => {
-      const newComment = {
+      const answerComment = {
         text,
         parent: {
           _id: comment._id,
@@ -40,7 +39,7 @@ function CommentTree({
         },
       };
 
-      onComment(newComment);
+      onComment(answerComment);
     }, []),
   };
 
@@ -88,12 +87,13 @@ function CommentTree({
 }
 
 CommentTree.propTypes = {
-  // comment,
-  // childComments,
-  // session,
-  // isRoot,
-  // onComment,
-  // onActionActive,
+  comment: PropTypes.object.isRequired,
+  childComments: PropTypes.array.isRequired,
+  session: PropTypes.object.isRequired,
+  isRoot: PropTypes.bool.isRequired,
+  onComment: PropTypes.func.isRequired,
+  onActionActive: PropTypes.func.isRequired,
+  innerActionId: PropTypes.string.isRequired,
 };
 
 CommentTree.defaultProps = {};
