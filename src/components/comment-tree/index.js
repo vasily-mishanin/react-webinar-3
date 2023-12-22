@@ -43,11 +43,13 @@ function CommentTree({
     }, []),
   };
 
+  const usernameStyle = comment.author.profile.name === session.user.profile.name ? cn("username-me") : cn("username");
+
   return (
     <div className={isRoot ? "CommentTree-root" : "CommentTree"}>
       <article className={cn()}>
         <div className={cn("header")}>
-          <span className={cn("username")}>{comment.author.profile.name}</span>
+          <span className={usernameStyle}>{comment.author.profile.name}</span>
           <span className={cn("time")}>
             {dateToReadableString(comment.dateCreate)}
           </span>

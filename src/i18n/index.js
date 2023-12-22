@@ -26,8 +26,6 @@ class I18n {
     this.lang = newLang;
    // this.t = function(text, number) {return translate(newLang, text, number)};
     this.t = (text, number) => translate(newLang, text, number);
-    console.log('setLang', this.lang);
-    console.log('listeners ', this.listeners);
     for (const listener of this.listeners) listener();
   }
 
