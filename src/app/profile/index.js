@@ -25,7 +25,7 @@ function Profile() {
     waiting: state.profile.waiting,
   }));
 
-  const {t} = useTranslate();
+  const { t } = useTranslate(state => ({...state}));
 
   return (
     <PageLayout>

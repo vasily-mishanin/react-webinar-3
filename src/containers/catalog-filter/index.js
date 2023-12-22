@@ -50,7 +50,8 @@ function CatalogFilter() {
     ]), [select.categories]),
   };
 
-  const {t} = useTranslate();
+
+  const {t} = useTranslate(state => ({...state}));
 
   return (
     <SideLayout padding='medium'>
@@ -63,4 +64,4 @@ function CatalogFilter() {
   )
 }
 
-export default memo(CatalogFilter);
+export default CatalogFilter;

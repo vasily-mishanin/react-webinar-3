@@ -31,7 +31,7 @@ function Basket() {
     }, [store]),
   }
 
-  const {t} = useTranslate();
+  const { t } = useTranslate(state => ({...state}));
 
   const renders = {
     itemBasket: useCallback((item) => (

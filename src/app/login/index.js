@@ -15,7 +15,7 @@ import useInit from '../../hooks/use-init';
 
 function Login() {
 
-  const {t} = useTranslate();
+  const { t } = useTranslate(state => ({...state}));
   const location = useLocation();
   const navigate = useNavigate();
   const store = useStore();

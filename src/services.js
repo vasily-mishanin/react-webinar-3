@@ -1,9 +1,9 @@
-import APIService from './api';
-import Store from './store';
-import createStoreRedux from './store-redux';
+import APIService from "./api";
+import I18n from "./i18n";
+import Store from "./store";
+import createStoreRedux from "./store-redux";
 
 class Services {
-
   constructor(config) {
     this.config = config;
   }
@@ -38,6 +38,16 @@ class Services {
       this._redux = createStoreRedux(this, this.config.redux);
     }
     return this._redux;
+  }
+
+  /**
+   * i18n
+   */
+  get i18n() {
+    if (!this._i18n) {
+      this._i18n = new I18n(this);
+    }
+    return this._i18n;
   }
 }
 
