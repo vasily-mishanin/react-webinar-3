@@ -9,6 +9,7 @@ class APIService {
     this.config = config
     this.defaultHeaders = {
       'Content-Type': 'application/json',
+      // 'Accept-Language': this.services.i18n.lang === 'ru' ? 'ru-RU' : 'en-EN',
     }
   }
 
@@ -22,9 +23,10 @@ class APIService {
    */
   async request({url, method = 'GET', headers = {}, ...options}) {
     if (!url.match(/^(http|\/\/)/)) url = this.config.baseUrl + url;
+    const langHeader = {'Accept-Language': this.services.i18n.lang === 'ru' ? 'ru-RU' : 'en-EN'};
     const res = await fetch(url, {
       method,
-      headers: {...this.defaultHeaders, ...headers},
+      headers: {...this.defaultHeaders, ...langHeader, ...headers},
       ...options,
     });
     return {data: await res.json(), status: res.status, headers: res.headers};

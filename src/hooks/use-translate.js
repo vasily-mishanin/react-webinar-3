@@ -17,7 +17,6 @@ export default function useTranslate(selectorFunc) {
   const unsubscribe = useMemo(() => {
     // Подписка и Возврат функции для отписки
     return i18n.subscribe(() => {
-      console.log('call SUBSCRIBER with', i18n.lang);
       const newState = selectorFunc(i18n);
       setState(prevState => shallowequal(prevState, newState) ? prevState : newState);
     });

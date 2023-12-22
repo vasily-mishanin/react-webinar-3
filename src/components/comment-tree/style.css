@@ -30,6 +30,8 @@
 
 .Comment-text {
   font-size: 14px;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 .Comment-btn-comment {

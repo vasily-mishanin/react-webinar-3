@@ -4,6 +4,7 @@ class I18n {
   constructor(servises, lang = "ru") {
     this.lang = lang;
     this.servises = servises;
+   // this.listeners = [() => servises.api.setHeader('Accept-Language', this.lang === 'ru' ? 'ru-RU' : 'en-EN')];
     this.listeners = [];
     this.t = this.t.bind(this);
     this.setLang = this.setLang.bind(this);
@@ -11,7 +12,6 @@ class I18n {
 
   subscribe(listener) {
     this.listeners.push(listener);
-    console.log('SUBSCRIBERS', this.listeners);
     // Возвращается функция для удаления добавленного слушателя
     return () => {
       this.listeners = this.listeners.filter(item => item !== listener);
