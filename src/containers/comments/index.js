@@ -25,7 +25,6 @@ function Comments() {
 
   const callbacks = {
     onComment: useCallback((answerComment) => {
-      console.log({ answerComment });
       dispatch(articleActions.createComment(answerComment));
       setInnerActionId("ROOT");
     }, []),

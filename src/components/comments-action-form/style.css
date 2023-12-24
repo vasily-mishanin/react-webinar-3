@@ -1,0 +1,37 @@
+.CommentsActionForm {
+  /* padding-right: 40px; */
+}
+
+.CommentsActionForm-input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.CommentsActionForm-input > label {
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.CommentsActionForm-input > textarea {
+  resize: none;
+  padding: 4px;
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.CommentsActionForm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.CommentsActionForm-btn-send {
+  font-size: 13px;
+}
+
+.CommentsActionForm-btn-cancel {
+  font-size: 13px;
+}
