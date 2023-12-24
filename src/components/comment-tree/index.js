@@ -6,6 +6,8 @@ const cn = bem("Comment");
 import { dateToReadableString } from "../../utils/date-to-readable-string";
 import CommentsAction from "../comments-action";
 
+const MAX_DEPTH = 7;
+
 function CommentTree({
   comment,
   childComments,
@@ -14,6 +16,7 @@ function CommentTree({
   onComment,
   onActionActive,
   innerActionId,
+  depth,
 }) {
   const callbacks = {
     onAnswer: useCallback(() => {
@@ -43,10 +46,17 @@ function CommentTree({
     }, []),
   };
 
-  const usernameStyle = comment.author.profile.name === session.user.profile.name ? cn("username-me") : cn("username");
+  const usernameStyle =
+    session.exists && comment.author.profile.name === session.user.profile.name
+      ? cn("username-me")
+      : cn("username");
 
   return (
-    <div className={isRoot ? "CommentTree-root" : "CommentTree"}>
+    <div
+      className={
+        isRoot || depth > MAX_DEPTH ? "CommentTree-root" : "CommentTree"
+      }
+    >
       <article className={cn()}>
         <div className={cn("header")}>
           <span className={usernameStyle}>{comment.author.profile.name}</span>
@@ -60,15 +70,6 @@ function CommentTree({
         </button>
       </article>
 
-      {innerActionId === comment._id && (
-        <CommentsAction
-          onComment={callbacks.onComment}
-          onActionClose={callbacks.onActionClose}
-          isRoot={false}
-          session={session}
-        />
-      )}
-
       {childComments.map((childComment) => {
         const { children, ...comment } = childComment;
         return (
@@ -81,9 +82,19 @@ function CommentTree({
             onComment={onComment}
             onActionActive={onActionActive}
             innerActionId={innerActionId}
+            depth={depth + 1}
           />
         );
       })}
+
+      {innerActionId === comment._id && (
+        <CommentsAction
+          onComment={callbacks.onComment}
+          onActionClose={callbacks.onActionClose}
+          isRoot={false}
+          session={session}
+        />
+      )}
     </div>
   );
 }
@@ -96,8 +107,11 @@ CommentTree.propTypes = {
   onComment: PropTypes.func.isRequired,
   onActionActive: PropTypes.func.isRequired,
   innerActionId: PropTypes.string.isRequired,
+  depth: PropTypes.number,
 };
 
-CommentTree.defaultProps = {};
+CommentTree.defaultProps = {
+  depth: 0,
+};
 
 export default memo(CommentTree);

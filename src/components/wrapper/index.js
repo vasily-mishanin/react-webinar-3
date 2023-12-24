@@ -9,7 +9,7 @@ function Wrapper({ top, right, bottom, left, children }) {
   };
 
   return (
-    <section className="Wrapper" style={wrapperStyle}>
+    <section className="CommentsWrapper" style={wrapperStyle}>
       {children}
     </section>
   );

@@ -52,6 +52,6 @@
   padding: 0;
 }
 
-.CommentTree p {
+.CommentTree p, .CommentTree-root p {
   margin: 0;
 }
