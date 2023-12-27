@@ -24,7 +24,7 @@ function CommentTree({
     }, [comment]),
 
     onActionClose: useCallback(() => {
-      onActionActive("ROOT");
+      onActionActive("ROOT_ACTION");
     }, []),
 
     onComment: useCallback((text) => {
@@ -93,6 +93,7 @@ function CommentTree({
           onActionClose={callbacks.onActionClose}
           isRoot={false}
           session={session}
+          innerActionId={innerActionId}
         />
       )}
     </div>

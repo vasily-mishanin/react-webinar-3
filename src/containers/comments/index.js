@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import articleActions from "../../store-redux/article/actions";
 import useSelectorCustom from "../../hooks/use-selector";
@@ -11,7 +11,7 @@ import Wrapper from "../../components/wrapper";
 import Heading2 from "../../components/heading-2";
 
 function Comments() {
-  const [innerActionId, setInnerActionId] = useState("ROOT");
+  const [innerActionId, setInnerActionId] = useState("ROOT_ACTION");
   const dispatch = useDispatch();
 
   const params = useParams();
@@ -26,7 +26,7 @@ function Comments() {
   const callbacks = {
     onComment: useCallback((answerComment) => {
       dispatch(articleActions.createComment(answerComment));
-      setInnerActionId("ROOT");
+      setInnerActionId("ROOT_ACTION");
     }, []),
 
     onRootComment: useCallback((text) => {
@@ -51,7 +51,7 @@ function Comments() {
     }, []),
 
     onActionClose: useCallback((actionId) => {
-      setInnerActionId("ROOT");
+      setInnerActionId("ROOT_ACTION");
     }, []),
   };
 
@@ -62,6 +62,22 @@ function Comments() {
     const { children, ...commentDetails } = comment;
     return { children, commentDetails };
   });
+
+  useEffect(() => {
+    if (innerActionId === "ROOT_ACTION") {
+      return;
+    }
+
+    const element = document.getElementById(innerActionId);
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest",
+      });
+    }
+  }, [innerActionId]);
 
   return (
     <Spinner active={select.waiting}>
@@ -79,12 +95,13 @@ function Comments() {
             innerActionId={innerActionId}
           />
         ))}
-        {innerActionId === "ROOT" && (
+        {innerActionId === "ROOT_ACTION" && (
           <CommentsAction
             isRoot={true}
             session={session}
             onComment={callbacks.onRootComment}
             onActionClose={callbacks.onActionClose}
+            innerActionId={innerActionId}
           />
         )}
       </Wrapper>

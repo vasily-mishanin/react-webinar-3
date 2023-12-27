@@ -1,5 +1,5 @@
-import { memo, useCallback, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { memo, useCallback, useEffect, useMemo } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import useStore from "../../hooks/use-store";
 import useTranslate from "../../hooks/use-translate";
 import useInit from "../../hooks/use-init";
@@ -36,7 +36,7 @@ function Article() {
     shallowequal
   ); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
 
-  const { t } = useTranslate(state => ({...state}));
+  const { t } = useTranslate((state) => ({ ...state }));
 
   const callbacks = {
     // Добавление в корзину

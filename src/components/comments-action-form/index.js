@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "./style.css";
 import { cn as bem } from "@bem-react/classname";
 
-function CommentsActionForm({ isRoot, onSubmit, onClose }) {
+function CommentsActionForm({ isRoot, onSubmit, onClose, innerActionId }) {
   const [commentText, setCommentText] = useState("");
   const processText = (text) => text.trim().replace(/[ \t]{2,}/gi, " ");
   const isCommentTextValid = (text) => processText(text).length > 0;
@@ -26,7 +26,7 @@ function CommentsActionForm({ isRoot, onSubmit, onClose }) {
   };
 
   return (
-    <form className={cn()} onSubmit={callbacks.onSubmit}>
+    <form className={cn()} onSubmit={callbacks.onSubmit} id={innerActionId}>
       <div className={cn("input")}>
         <label htmlFor="commentText">
           Новый {isRoot ? "комментарий" : "ответ"}
@@ -64,6 +64,7 @@ CommentsActionForm.propTypes = {
   isRoot: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func,
+  innerActionId: PropTypes.string,
 };
 
 CommentsActionForm.defaultProps = {};
