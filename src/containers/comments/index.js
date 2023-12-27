@@ -69,6 +69,7 @@ function Comments() {
     }
 
     const element = document.getElementById(innerActionId);
+    const textInput = element?.querySelector("textarea");
 
     if (element) {
       element.scrollIntoView({
@@ -76,6 +77,12 @@ function Comments() {
         block: "center",
         inline: "nearest",
       });
+    }
+
+    if (textInput) {
+      setTimeout(() => {
+        textInput.focus();
+      }, 500);
     }
   }, [innerActionId]);
 
