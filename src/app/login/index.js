@@ -49,9 +49,9 @@ function Login() {
             location.state?.back && location.state?.back !== location.pathname
               ? location.state?.back
               : "/";
-          //console.log({ back }); // не дает восстановления скрола
+          console.log(location); // не дает восстановления скрола
           //navigate(back); // не восстанавливает сролл
-          navigate(-1); // восстанавливает сролл
+          navigate(back === "/" ? back : -1); // восстанавливает сролл
         });
       },
       [data, location.state]
